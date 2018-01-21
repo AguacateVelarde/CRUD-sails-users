@@ -1,0 +1,120 @@
+<div class="col-md-12">
+
+  <h3 class="text-center p-5"> Usuarios  </h3>
+</div>
+
+<br> <br>
+<div class="col-md-12">
+  <table class="table table-responsive-sm">
+    <thead class="table-primary">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Teléfono</th>
+        <th scope="col">Domicilio</th>
+        <th scope="col">RFC</th>
+        <th scope="col">Email</th>
+        <th scope="col">CP</th>
+        <th scope="col">Actualizado</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% _.each(users, function(user) {%>
+      <tr>
+
+        <td><%=user.idCliente%></td>
+        <td><%=user.Nombre%></td>
+        <td><%=user.Telefono%></td>
+        <td><%=user.Domicilio%></td>
+        <td><%=user.RFC%></td>
+        <td><%=user.Email%></td>
+        <td><%=user.CP%></td>
+        <td><%=user.updatedAt%></td>
+        <th><a class="btn btn-outline-primary"  onclick="edit(<%=user.idCliente%>)"> Editar </a></th>
+        <th><a class="btn btn-outline-danger" onclick="del(<%=user.idCliente%>)"> X </a></th>
+      </tr>
+      <% }) %>
+
+    </tbody>
+  </table>
+
+</div>
+
+<div class="col-md-12">
+  <a href="/alta" class="btn btn-primary mb-5"> Registrar usuario </a>
+</div>
+
+
+<div id="detalle" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div id="template"></div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+
+function del( id ){
+  $.ajax({
+      url: 'http://localhost:1337/users/'+id,
+      type: 'DELETE',
+      success: function(result) {
+          // Do something with the result
+      }
+  });
+}
+
+function edit( id ){
+  $.get('http://localhost:1337/users/'+id, function( data ) {
+    console.log(data)
+    $('#template').html(`
+      <h3 class="text-center m-3"> Editar usuario</h3>
+        <hr>
+      <form class="m-3" onsubmit="editR(${ data.idCliente })">
+        <label for="">Nombre: </label>
+        <input id="NombreEdit" class="form-control" type="text" value="${ data.Nombre }">
+        <label for="">Telefono: </label>
+        <input id="TelefonoEdit" class="form-control" type="text" value="${ data.Telefono }">
+        <label for="">Domicilio: </label>
+        <input id="DomicilioEdit" class="form-control" type="text" value="${ data.Domicilio }">
+        <label for="">RFC: </label>
+        <input id="RFCEdit" class="form-control" type="text" value="${ data.RFC }">
+        <label for="">Email: </label>
+        <input id="EmailEdit" class="form-control" type="text" value="${ data.Email }">
+        <label for="">CP: </label>
+        <input id="CPEdit" class="form-control" type="text" value="${ data.CP }">
+        <input class="btn btn-warning mt-3 text-center" type="submit" value="Atualizar">
+      </form>
+
+      `)
+    $('#detalle').modal('show')
+  });
+
+
+
+}
+
+function editR( id ){
+  $.ajax({
+      url: 'http://localhost:1337/users/'+id,
+      data: {
+        "Nombre": $('#NombreEdit').val(),
+         "Telefono": $('#TelefonoEdit').val(),
+         "Domicilio": $('#DomicilioEdit').val(),
+         "RFC": $('#RFCEdit').val(),
+         "Email": $('#EmailEdit').val(),
+         "CP": $('#CPEdit').val()
+      },
+      type: 'PUT',
+      success: function(result) {
+          // Do something with the result
+      }
+  });
+
+}
+
+</script>

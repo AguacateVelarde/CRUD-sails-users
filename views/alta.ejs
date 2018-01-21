@@ -1,0 +1,46 @@
+<div class="col-md-12 mt-3">
+  <div class="col-md-12"></div>
+  <form class="col-md-6 m-5 " id="alta">
+
+      <label>Escribe tu nombre: </label>
+      <input id="nombre" type="text" class="form-control mb-3" placeholder="Tu nombre aquí">
+      <label>Escribe tu Teléfono: </label>
+      <input id="telefono" type="text" class="form-control mb-3" placeholder="Tu teléfono aquí">
+      <label>Escribe tu domicilio:</label>
+      <input id="domicilio" type="text" class="form-control mb-3" placeholder="Tu domicilio aquí">
+      <label>Escribe tu RFC:</label>
+      <input id="RFC" type="text"  class="form-control mb-3" placeholder="Tu RFC aquí">
+      <label>Escribe tu Email:</label>
+      <input id="email" type="email" class="form-control mb-3" placeholder="Tu Email aquí">
+      <label>Escribe tu CP:</label>
+      <input id="cp" type="text" class="form-control mb-3" placeholder="Tu CP aquí">
+      <input class="btn btn-danger" type="submit" value="Crear usuario">
+      <a href="/users" class="btn btn-primary pull-right"> Regresar </a>
+
+
+  </form>
+
+
+</div>
+
+<script>
+
+
+  $('#alta').submit(function( e ){
+    $.post( "http://localhost:1337/users/create/",{
+      "Nombre": $('#nombre').val(),
+       "Telefono": $('#telefono').val(),
+       "Domicilio": $('#domicilio').val(),
+       "RFC": $('#RFC').val(),
+       "Email": $('#email').val(),
+       "CP": $('#cp').val()
+    }, function( data ) {
+      console.log(data)
+    });
+  })
+
+
+
+
+
+</script>
